@@ -20,16 +20,30 @@ Minimal static site: one **HTTP redirect** you can update whenever your `tryclou
 
 1. **New site** from Git → pick the repo (this folder can live inside the same repo; set **Base directory** in Netlify to `deploy/netlify-redirect` if the repo root is not only this site).
 2. **Build settings:** leave default; there is no build command. **Publish directory:** `public` if the Netlify **base directory** is `deploy/netlify-redirect`; if the site root **is** this folder, publish is still `public` (already set in `netlify.toml`).
-3. **Domain:** Site settings → **Domain management** → add **`az-studio.pro`** (and `www` if you want). Netlify will show required DNS; your DNS is already at Netlify for `az-studio.pro` — add the records it asks for (often **ALIAS/ANAME** apex to the Netlify load balancer, or follow their wizard).
+3. **Domain:** Site settings → **Domain management** → add custom hostnames. Netlify usually asks for **CNAME** records in Netlify DNS (exact target from the UI, e.g. **`<your-site>.netlify.app`**):
+
+   | Hostname | DNS label (in Netlify DNS) |
+   |----------|----------------------------|
+   | `scan2buy.az-studio.pro` | **CNAME** name `scan2buy` → Netlify target |
+   | **`s.az-studio.pro`** (alias) | **CNAME** name **`s`** → **same** Netlify target |
+
+   Both names serve the **same** deploy and the **same** `public/_redirects` rules.
+
+   **Conflict check:** one hostname → one target. If a label was a **CNAME to `…cfargotunnel.com`**, switch it to Netlify for this redirect site. The real Scan2Buy app URL stays in `_redirects`.
 
 ## After each tunnel restart
 
 Quick tunnels get a new hostname. Update the URL in `public/_redirects`, commit, push. Redeploy finishes in seconds.
 
-## Optional: redirect the whole apex
+## Optional: redirect the site root
 
-Uncomment the `/` line in `_redirects` and set the same tunnel URL so `https://az-studio.pro/` goes straight to Scan2Buy (then the small `index.html` is never used for `/`).
+Uncomment the `/` line in `_redirects` and set the tunnel URL so **`https://scan2buy.az-studio.pro/`** goes straight to Scan2Buy (then `index.html` is not used for `/`).
 
-## Paths
+## Paths (your setup)
 
-- **`https://az-studio.pro/go`** → your Scan2Buy tunnel root (adjust in `_redirects` if you want `/qr-generator/` instead).
+Same path on **either** hostname:
+
+- **`https://scan2buy.az-studio.pro/go`**
+- **`https://s.az-studio.pro/go`** — shorter host for bookmarks / QR.
+
+Both → tunnel URL from `_redirects` (default: Scan2Buy app root). Change the right-hand side to **`…/qr-generator/`** if you want `/go` to open labels only.
