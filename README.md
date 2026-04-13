@@ -35,15 +35,13 @@ Minimal static site: one **HTTP redirect** you can update whenever your `tryclou
 
 Quick tunnels get a new hostname. Update the URL in `public/_redirects`, commit, push. Redeploy finishes in seconds.
 
-## Optional: redirect the site root
+## Optional: redirect the scan2buy host root
 
-Uncomment the `/` line in `_redirects` and set the tunnel URL so **`https://scan2buy.az-studio.pro/`** goes straight to Scan2Buy (then `index.html` is not used for `/`).
+**`s.az-studio.pro`** already redirects the whole host in `_redirects`. To send **`https://scan2buy.az-studio.pro/`** straight to the tunnel as well, uncomment the `/` line in `_redirects` (then `index.html` is not used for `/` on that host).
 
 ## Paths (your setup)
 
-Same path on **either** hostname:
+- **`https://s.az-studio.pro/`** (any path) → **302** to the same path on your trycloudflare tunnel (`:splat`), e.g. `/` → app root, `/qr-generator/` → labels.
+- **`https://scan2buy.az-studio.pro/go`** → tunnel root (see `_redirects`). Uncomment the `/` rule there if you want the scan2buy host’s root to redirect too.
 
-- **`https://scan2buy.az-studio.pro/go`**
-- **`https://s.az-studio.pro/go`** — shorter host for bookmarks / QR.
-
-Both → tunnel URL from `_redirects` (default: Scan2Buy app root). Change the right-hand side to **`…/qr-generator/`** if you want `/go` to open labels only.
+When the tunnel hostname changes, update **both** URL lines in `public/_redirects` (the `s.az-studio.pro` rule and the `/go` rule).

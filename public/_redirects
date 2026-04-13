@@ -1,8 +1,11 @@
-# Edit the URL when your trycloudflare (or other) tunnel changes, commit, push — Netlify redeploys.
+# Edit the tunnel URL in both blocks when trycloudflare restarts, then commit + push.
 # Docs: https://docs.netlify.com/routing/redirects/overview/
 
-# Short link → Scan2Buy (bridge serves UI on /)
+# --- s.az-studio.pro: everything → Scan2Buy tunnel (short host, no /go needed) ---
+https://s.az-studio.pro/*  https://milwaukee-scientific-old-eagle.trycloudflare.com/:splat  302
+
+# --- scan2buy.az-studio.pro (and other hostnames on this site) ---
 /go   https://milwaukee-scientific-old-eagle.trycloudflare.com/   302
 
-# Optional: redirect site root to the same app (uncomment and set URL; then "/" won't show index.html)
-# /     https://REPLACE-ME.trycloudflare.com/   302
+# Optional: redirect scan2buy site root to tunnel as well (uncomment + same URL)
+# /     https://milwaukee-scientific-old-eagle.trycloudflare.com/   302
