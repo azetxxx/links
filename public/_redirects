@@ -1,4 +1,2 @@
-https://s.az-studio.pro/go  https://milwaukee-scientific-old-eagle.trycloudflare.com/  302
 https://s.az-studio.pro/*  https://milwaukee-scientific-old-eagle.trycloudflare.com/:splat?:query  302
-/go   https://milwaukee-scientific-old-eagle.trycloudflare.com/  302
 /     https://milwaukee-scientific-old-eagle.trycloudflare.com/:query  302
