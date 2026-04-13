@@ -1,0 +1,3 @@
+# Static site: only public/ is published (HTML + _redirects).
+[build]
+  publish = "public"
