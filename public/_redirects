@@ -1,11 +1,3 @@
-# Edit the tunnel URL in both blocks when trycloudflare restarts, then commit + push.
-# Docs: https://docs.netlify.com/routing/redirects/overview/
-
-# --- s.az-studio.pro: everything → Scan2Buy tunnel (short host, no /go needed) ---
 https://s.az-studio.pro/*  https://milwaukee-scientific-old-eagle.trycloudflare.com/:splat  302
-
-# --- scan2buy.az-studio.pro (and other hostnames on this site) ---
 /go   https://milwaukee-scientific-old-eagle.trycloudflare.com/   302
-
-# Optional: redirect scan2buy site root to tunnel as well (uncomment + same URL)
-# /     https://milwaukee-scientific-old-eagle.trycloudflare.com/   302
+/     https://milwaukee-scientific-old-eagle.trycloudflare.com/   302

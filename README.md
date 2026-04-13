@@ -1,47 +1,25 @@
-# Netlify: short link on your domain → Cloudflare tunnel (Scan2Buy)
+# Netlify: your domain → Scan2Buy (trycloudflare)
 
-Minimal static site: one **HTTP redirect** you can update whenever your `trycloudflare.com` URL changes. No Bitly, no ads.
+**Redirect-only** deploy: there is **no** `index.html` — only `public/_redirects`. No placeholder pages.
 
-## What’s in the repo
+## Files
 
 | File | Role |
 |------|------|
-| `public/_redirects` | Netlify redirect rules (`/go` → your tunnel URL). |
-| `public/index.html` | Tiny homepage at `/` (optional; you can redirect `/` too — see comments in `_redirects`). |
+| `public/_redirects` | All rules (tunnel URL appears in several lines — keep them in sync). |
 | `netlify.toml` | Publish directory = `public`. |
 
-## Before first deploy
+## Before / after tunnel URL changes
 
-1. Open `public/_redirects`.
-2. Replace `https://REPLACE-ME.trycloudflare.com/` with your real tunnel base URL (no trailing issues: one slash before path is fine).
-3. Commit and push.
+Edit **`public/_redirects`**: replace every `https://milwaukee-scientific-old-eagle.trycloudflare.com` (or your current tunnel) with the new base URL. Commit and push.
 
-## Netlify setup
+## Netlify + DNS
 
-1. **New site** from Git → pick the repo (this folder can live inside the same repo; set **Base directory** in Netlify to `deploy/netlify-redirect` if the repo root is not only this site).
-2. **Build settings:** leave default; there is no build command. **Publish directory:** `public` if the Netlify **base directory** is `deploy/netlify-redirect`; if the site root **is** this folder, publish is still `public` (already set in `netlify.toml`).
-3. **Domain:** Site settings → **Domain management** → add custom hostnames. Netlify usually asks for **CNAME** records in Netlify DNS (exact target from the UI, e.g. **`<your-site>.netlify.app`**):
+1. **Site** from Git; **publish** = `public` (see `netlify.toml`).
+2. **Domains:** add **`scan2buy.az-studio.pro`** and **`s.az-studio.pro`**; in Netlify DNS use **CNAME** `scan2buy` and **`s`** → your **`<site>.netlify.app`** target.
 
-   | Hostname | DNS label (in Netlify DNS) |
-   |----------|----------------------------|
-   | `scan2buy.az-studio.pro` | **CNAME** name `scan2buy` → Netlify target |
-   | **`s.az-studio.pro`** (alias) | **CNAME** name **`s`** → **same** Netlify target |
+## Behaviour
 
-   Both names serve the **same** deploy and the **same** `public/_redirects` rules.
-
-   **Conflict check:** one hostname → one target. If a label was a **CNAME to `…cfargotunnel.com`**, switch it to Netlify for this redirect site. The real Scan2Buy app URL stays in `_redirects`.
-
-## After each tunnel restart
-
-Quick tunnels get a new hostname. Update the URL in `public/_redirects`, commit, push. Redeploy finishes in seconds.
-
-## Optional: redirect the scan2buy host root
-
-**`s.az-studio.pro`** already redirects the whole host in `_redirects`. To send **`https://scan2buy.az-studio.pro/`** straight to the tunnel as well, uncomment the `/` line in `_redirects` (then `index.html` is not used for `/` on that host).
-
-## Paths (your setup)
-
-- **`https://s.az-studio.pro/`** (any path) → **302** to the same path on your trycloudflare tunnel (`:splat`), e.g. `/` → app root, `/qr-generator/` → labels.
-- **`https://scan2buy.az-studio.pro/go`** → tunnel root (see `_redirects`). Uncomment the `/` rule there if you want the scan2buy host’s root to redirect too.
-
-When the tunnel hostname changes, update **both** URL lines in `public/_redirects` (the `s.az-studio.pro` rule and the `/go` rule).
+- **`https://s.az-studio.pro/*`** → **302** to the same path on the tunnel (`:splat`).
+- **`https://scan2buy.az-studio.pro/`** → **302** to tunnel `/` (via the `/` rule).
+- **`https://scan2buy.az-studio.pro/go`** → **302** to tunnel `/` (explicit short path; optional if you only use `s`).
