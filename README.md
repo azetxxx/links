@@ -1,5 +1,7 @@
 # Netlify: your domain → Scan2Buy (trycloudflare)
 
+**Git remote:** this folder is the repo [github.com/azetxxx/links](https://github.com/azetxxx/links) (clone or `git init` + `git remote add origin` here; the monorepo ignores this path and does not double-track it).
+
 **Redirect-only** deploy: there is **no** `index.html` — only `public/_redirects`. No placeholder pages.
 
 ## Files
