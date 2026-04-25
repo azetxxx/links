@@ -1,0 +1,7 @@
+# Deep links use path "/" + ?p=… — "/*" alone may not match "/", and ":query" is not a Netlify placeholder (breaks ?p=).
+# Netlify auto-appends the original query string to 302 targets when the "to" URL has no query (see redirect-options docs).
+# TUNNEL: __TUNNEL_ORIGIN__ (regenerate from _redirects.template via npm run tunnel:trycloudflare)
+https://s.az-studio.pro/  __TUNNEL_ORIGIN__/  302
+https://s.az-studio.pro/*  __TUNNEL_ORIGIN__/:splat  302
+# Other hostnames on this site (if any) → same tunnel
+/  __TUNNEL_ORIGIN__/  302

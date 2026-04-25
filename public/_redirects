@@ -1,0 +1,7 @@
+# Deep links use path "/" + ?p=… — "/*" alone may not match "/", and ":query" is not a Netlify placeholder (breaks ?p=).
+# Netlify auto-appends the original query string to 302 targets when the "to" URL has no query (see redirect-options docs).
+# TUNNEL: https://simplified-shaw-reflections-hydraulic.trycloudflare.com (regenerate from _redirects.template via npm run tunnel:trycloudflare)
+https://s.az-studio.pro/  https://simplified-shaw-reflections-hydraulic.trycloudflare.com/  302
+https://s.az-studio.pro/*  https://simplified-shaw-reflections-hydraulic.trycloudflare.com/:splat  302
+# Other hostnames on this site (if any) → same tunnel
+/  https://simplified-shaw-reflections-hydraulic.trycloudflare.com/  302
